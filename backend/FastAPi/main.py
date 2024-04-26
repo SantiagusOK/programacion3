@@ -3,6 +3,7 @@ from Routers import productos, users
 from fastapi.staticfiles import StaticFiles
 
 
+
 app = FastAPI()
 
 # Routers

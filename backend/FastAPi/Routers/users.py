@@ -27,15 +27,6 @@ async def get_all_users():
     return users_bd
 
 
-@router.post("/user/",status_code=200)
-async def create_user(user: User):
-    if search_user(user.id):
-        raise HTTPException(
-            status.HTTP_404_NOT_FOUND,
-            detail="El usuario ya existe")
-    else:
-        users_bd.routerend(user)
-        return {"message": f"El usuario {user.name} se ha añadido con éxito"}
 
 
 @router.put("/user/")
@@ -49,7 +40,7 @@ async def update_user(user:User):
 
 
 
-@router.post("/newUsers/")
+@router.post("/newUsers/", status_code=200)
 async def new_user(newUser: User):
     for user in users_bd:
         if newUser.name == user.name:
@@ -59,9 +50,7 @@ async def new_user(newUser: User):
     
     users_bd.append(newUser)
     
-    raise HTTPException(
-        status.HTTP_200_OK,
-        detail="Usuario añadido con exito")
+    return "Usuario añadido con exito"
 
 @router.delete("/user/{id}")
 async def delete_user(id:int):

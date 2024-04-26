@@ -1,10 +1,7 @@
 from fastapi import APIRouter
 
-router = APIRouter(
-    prefix="/producto",
-    responses={400 : {"message" : "NO encontrado"}}, 
-    tags=["producto"])
+router = APIRouter()
 
-@router.get("/")
+@router.get("/producto", status_code=404)
 async def get_producto():
     return ["coso1", "coso2", "coso3", "coso4"]
