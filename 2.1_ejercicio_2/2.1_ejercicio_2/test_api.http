@@ -1,0 +1,74 @@
+###
+curl http://127.0.0.1:8000
+
+### Añadir una tarea (POST /todo):
+curl -X POST -H "Content-Type: application/json" -d '{"id": 1, "item": "Comprar leche"}' http://localhost:8000/todo
+### Obtener todas las tareas (GET /todo):
+curl http://localhost:8000/todo
+### Obtener una tarea específica por su ID (GET /todo/{todo_id}):
+curl http://localhost:8000/todo/1
+
+### Actualizar una tarea por su ID (PUT /todo/{todo_id}):
+curl -X PUT -H "Content-Type: application/json" -d '{"item": "Comprar pan"}' http://localhost:8000/todo/1
+
+### Eliminar una tarea por su ID (DELETE /todo/{todo_id}):
+curl -X DELETE http://localhost:8000/todo/1
+
+### Eliminar todas las tareas (DELETE /todo):
+curl -X DELETE http://localhost:8000/todo
+### POST 1
+###Probemos la operación POST enviando una solicitud para agregar un elemento a nuestra lista de tareas pendientes:
+
+curl -X 'POST' \
+
+  'http://127.0.0.1:8000/todo' \
+
+  -H 'accept: application/json' \
+
+  -H 'Content-Type: application/json' \
+
+  -d '{
+
+  "id": 1,
+
+  "item": "First Todo is to finish this book!"
+
+}'
+### POST 2
+###Verifiquemos el nuevo validador del cuerpo de la solicitud enviando un diccionario vacío como cuerpo de la solicitud:
+curl -X 'POST' \
+
+  'http://127.0.0.1:8000/todo' \
+
+  -H 'accept: application/json' \
+
+  -H 'Content-Type: application/json' \
+
+  -d '{
+
+}'
+### POST 3
+###Enviar una solicitud con datos correctos devuelve una respuesta exitosa:
+curl -X 'POST' \
+
+  'http://127.0.0.1:8000/todo' \
+
+  -H 'accept: application/json' \
+
+  -H 'Content-Type: application/json' \
+
+  -d '{
+
+  "id": 2,
+
+  "item": "Validation models help with input types"
+
+}'
+### GET 1
+curl -X 'GET' \
+
+  'http://127.0.0.1:8000/todo/1' \
+
+  -H 'accept: application/json'
+
+
