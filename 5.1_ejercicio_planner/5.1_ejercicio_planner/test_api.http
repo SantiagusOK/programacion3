@@ -1,0 +1,54 @@
+###
+curl http://127.0.0.1:8080
+###  Registrar un Usuario:
+curl -X 'POST' \
+  'http://0.0.0.0:8080/user/signup' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "test@gmail.com",
+  "password": "123456!",
+  "username": "user1"
+}'
+### Prueba de ruta de inicio de sesión:
+curl -X 'POST' \
+  'http://0.0.0.0:8080/user/signin' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "test@gmail.com",
+  "password": "123456!"
+}'
+### GET- Traer los eventos cargados
+curl -X 'GET' \
+  'http://0.0.0.0:8080/event/' \
+  -H 'accept: application/json'
+### POST- Crear un evento
+curl -X 'POST' \
+  'http://0.0.0.0:8080/event/new' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "id": 1,
+  "title": "FastAPI Book Launch",
+  "image": "https://linktomyimage.com/image.png",
+  "description": "We will be discussing the contents
+  of the FastAPI book in this event.Ensure to come
+  with your own copy to win gifts!",
+  "tags": [
+	"python",
+	"fastapi",
+	"book",
+	"launch"
+  ],
+  "location": "Google Meet"
+}'
+###GET-Traer evento 1
+curl -X 'GET' \
+  'http://0.0.0.0:8080/event/1' \
+  -H 'accept: application/json'
+###DELETE evento 1
+curl -X 'DELETE' \
+'http://0.0.0.0:8080/event/1' \
+-H 'accept: application/json'
+###
