@@ -25,7 +25,12 @@ lista_producto = [
 async def get_a_stock(id : int):
     for producto in lista_producto:
         if producto.id == id:
-            return producto.stock, producto.stock_minimo, producto.stock_maximo, producto.activo
+            bajo_stock_minimo = True if producto.stock < producto.stock_minimo else False
+            return {
+                "Stock" : producto.stock,
+                "bajo_stock_minimo" : bajo_stock_minimo,
+                "activo" : producto.activo
+            }
 
     raise HTTPException(
         status.HTTP_404_NOT_FOUND,
