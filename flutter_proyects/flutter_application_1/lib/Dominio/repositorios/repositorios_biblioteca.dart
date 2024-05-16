@@ -5,31 +5,15 @@ import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
 
 abstract class RepositorioBiblioteca{
 
-  List<Libro> listaDelibros = [];
-  List<Usuario> listaDeUsuarios = [];
-  List<MovimientoDeBiblioteca> listaDeMovimientos = [];
+  void agregarLibro(Libro nuevoLibro);
 
+  void agregarUsuario(Usuario nuevoUsuario);
 
-  void agregarLibro(Libro nuevoLibro){
-    listaDelibros.add(nuevoLibro);
-  }
+  List<Libro> todosLosLibros();
 
-  void agregarUsuario(Usuario nuevoUsuario){
-    listaDeUsuarios.add(nuevoUsuario);
-  }
+  List<Usuario> todosLosUsuarios();
+  void agregarMovimiento(MovimientoDeBiblioteca nuevoMovimiento);
 
-  List<Libro> todosLosLibros(){
-    return listaDelibros;
-  } 
-
-  List<Usuario> todosLosUsuarios(){
-    return listaDeUsuarios;
-  } 
-
-  void agregarMovimiento(MovimientoDeBiblioteca nuevoMovimiento){
-    listaDeMovimientos.add(nuevoMovimiento);
-  }
-
-  void todosLosLibrosNoVueltos(){} // List<Libro>
+  void todosLosLibrosNoVueltos();// List<Libro>
 
 }
