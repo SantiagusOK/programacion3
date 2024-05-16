@@ -6,15 +6,16 @@ import 'package:flutter_application_1/Dominio/repositorios/repositorios_bibliote
 
 
 class AdministracionDeBiblioteca{
-
+  RepositorioBiblioteca repositorioBiblioteca;
+  AdministracionDeBiblioteca({required this.repositorioBiblioteca});
 
   void registrarEntregaDeLibro(DateTime fecha, Libro libro, Usuario usuario){
-
     MovimientoDeBiblioteca newMovimiento = MovimientoDeBiblioteca(fecha, usuario, libro, false);
-
+    repositorioBiblioteca.agregarMovimiento(newMovimiento);
   }
   
   void registrarDevolucionDeLibro(DateTime fecha, Libro libro, Usuario usuario){
     MovimientoDeBiblioteca newMovimiento = MovimientoDeBiblioteca(fecha, usuario, libro, true);
+    repositorioBiblioteca.agregarMovimiento(newMovimiento);
   }
 }
