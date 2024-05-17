@@ -1,5 +1,4 @@
-class Usuario{
-
+class Usuario {
   int dni;
   String nombre;
   String apellido;
@@ -7,5 +6,4 @@ class Usuario{
   String email;
 
   Usuario(this.dni, this.nombre, this.apellido, this.telefono, this.email);
-
 }
