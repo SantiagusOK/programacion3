@@ -1,34 +1,52 @@
 from typing import List
 
-from fastapi import APIRouter, Body, HTTPException, status
-from models.events import Event
+from fastapi import APIRouter, Body, HTTPException, status, Depends, requests
+from sqlmodel import Session, select, SQLModel
+from models.events import Event, EventBody
+from database.connect import get_session
 
 event_router = APIRouter(
     tags=["Events"]
 )
 
+
+{
+  "title" : "Tarea",
+  "image" : "image/coso.jpg",
+  "description" : "una tarea que hacer",
+  "tags" : [ "tarea", "aburrido"],
+  "location" : "mi casa"
+}
+
 events = []
 
 
-@event_router.get("/", response_model=List[Event])
-async def retrieve_all_events() -> List[Event]:
+@event_router.get("/")
+async def retrieve_all_events(session:Session=Depends(get_session)):
+    statemts = select(Event)
+    events = session.exec(statemts).all()
     return events
 
 
 @event_router.get("/{id}", response_model=Event)
-async def retrieve_event(id: int) -> Event:
-    for event in events:
-        if event.id == id:
-            return event
-    raise HTTPException(
-        status_code=status.HTTP_404_NOT_FOUND,
-        detail="Event with supplied ID does not exist"
-    )
+async def retrieve_event(id: int, session: Session = Depends(get_session)) -> Event:
+    event = session.get(Event, id)
+
+    if event:
+        return event
+    
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Event with supplied ID does not exist"
+        )
 
 
 @event_router.post("/new")
-async def create_event(body: Event = Body(...)) -> dict:
-    events.append(body)
+async def create_event(body: Event, session:Session=Depends(get_session)) -> dict:
+    session.add(body)
+    session.commit()
+    session.refresh(body)
     return {
         "message": "Event created successfully"
     }

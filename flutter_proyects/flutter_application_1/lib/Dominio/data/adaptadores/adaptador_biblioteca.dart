@@ -11,6 +11,7 @@ class AdaptadorBibliotecaMemoria implements RepositorioBiblioteca {
     Libro(4, "El libro Troll", true),
     Libro(5, "Chupa el perro: El Libro", false),
   ];
+
   List<Usuario> listaDeUsuarios = [
     Usuario(44404561, "Santiago", "Zapata", 2622785490, "santi315@gmail.com"),
     Usuario(44404561, "Santiago", "Zapata", 2622785490, "santi315@gmail.com"),
