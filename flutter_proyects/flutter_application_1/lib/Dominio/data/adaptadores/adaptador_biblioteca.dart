@@ -9,14 +9,14 @@ class AdaptadorBibliotecaMemoria implements RepositorioBiblioteca {
     Libro(2, "Virtual Hero", true),
     Libro(3, "Luna de Pluton", true),
     Libro(4, "El libro Troll", true),
-    Libro(5, "Chupa el perro: El Libro", false),
+    Libro(5, "Chupa el perro: El Libro", true)
   ];
 
   List<Usuario> listaDeUsuarios = [
-    Usuario(44404561, "Santiago", "Zapata", 2622785490, "santi315@gmail.com"),
-    Usuario(44404561, "Santiago", "Zapata", 2622785490, "santi315@gmail.com"),
-    Usuario(44404561, "Santiago", "Zapata", 2622785490, "santi315@gmail.com"),
-    Usuario(44404561, "Santiago", "Zapata", 2622785490, "santi315@gmail.com"),
+    Usuario(44404534, "Santiago", "Zapata", 2622785490, "santi315@gmail.com"),
+    Usuario(44404756, "Martina", "Jackson", 2622785490, "martina315@gmail.com"),
+    Usuario(44404534, "Horacio", "Lajeta", 2622784590, "larreta315@gmail.com"),
+    Usuario(44404234, "Susana", "Horia", 2622345623, "susan315@gmail.com")
   ];
   List<MovimientoDeBiblioteca> listaDeMovimientos = [];
 

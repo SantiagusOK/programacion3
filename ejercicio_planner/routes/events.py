@@ -1,14 +1,13 @@
 from typing import List
 
-from fastapi import APIRouter, Body, HTTPException, status, Depends, requests
-from sqlmodel import Session, select, SQLModel
+from fastapi import APIRouter, HTTPException, status, Depends
+from sqlmodel import Session, select
 from models.events import Event, EventBody
 from database.connect import get_session
 
 event_router = APIRouter(
     tags=["Events"]
 )
-
 
 {
   "title" : "Tarea",
@@ -25,6 +24,7 @@ events = []
 async def retrieve_all_events(session:Session=Depends(get_session)):
     statemts = select(Event)
     events = session.exec(statemts).all()
+    print(f"Valor del statemns------------------------------------------- {statemts}")
     return events
 
 
@@ -49,7 +49,7 @@ async def create_event(body: Event, session:Session=Depends(get_session)) -> dic
     session.refresh(body)
     return {
         "message": "Event created successfully"
-    }
+    } 
 
 
 @event_router.delete("/{id}")
