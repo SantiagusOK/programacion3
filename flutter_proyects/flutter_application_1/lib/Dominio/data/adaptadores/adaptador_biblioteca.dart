@@ -6,10 +6,10 @@ import 'package:flutter_application_1/Dominio/repositorios/repositorios_bibliote
 class AdaptadorBibliotecaMemoria implements RepositorioBiblioteca {
   List<Libro> listaDelibros = [
     Libro(1, "El Principito", true),
-    Libro(2, "Virtual Hero", true),
+    Libro(2, "Virtual Hero", false),
     Libro(3, "Luna de Pluton", true),
     Libro(4, "El libro Troll", true),
-    Libro(5, "Chupa el perro: El Libro", true)
+    Libro(5, "Chupa el perro: El Libro", false)
   ];
 
   List<Usuario> listaDeUsuarios = [
@@ -46,5 +46,17 @@ class AdaptadorBibliotecaMemoria implements RepositorioBiblioteca {
   }
 
   @override
-  void todosLosLibrosNoVueltos() {} // List<Libro>
+  List<Libro> todosLosLibrosNoVueltos() {
+    List<Libro> librosFaltantes = [];
+
+    for (int i = 0; i < listaDelibros.length; i++) {
+      Libro libro = listaDelibros[i];
+
+      if (!libro.disponible) {
+        librosFaltantes.add(libro);
+      }
+    }
+
+    return librosFaltantes;
+  } // List<Libro>
 }

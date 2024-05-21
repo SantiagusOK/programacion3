@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/presentacion/pantalla_agregar_libro.dart';
 import 'package:flutter_application_1/presentacion/pantalla_agregar_usuario.dart';
 import 'package:flutter_application_1/presentacion/pantalla_devolver_libros.dart';
 import 'package:flutter_application_1/presentacion/pantalla_devolver_usuarios.dart';
+import 'package:flutter_application_1/presentacion/pantalla_librosFaltantes.dart';
 import 'package:flutter_application_1/presentacion/pantalla_registro_retiro.dart';
 
 class MainPage extends StatelessWidget {
@@ -107,7 +110,12 @@ class MainPage extends StatelessWidget {
               width: 600,
               height: 60,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LibrosFaltantesPage()));
+                  },
                   child: const Text("Mostrar todos los libros no devueltos",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
@@ -116,7 +124,9 @@ class MainPage extends StatelessWidget {
               width: 600,
               height: 60,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    exit(0);
+                  },
                   child: const Text("Salir",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
