@@ -11,8 +11,8 @@ class UserCubit extends Cubit<Userstate> {
         ]));
 
   void actualizarDatos(User newUser) {
-    List<User> updateList = state.listaUsuarios;
-    updateList.add(newUser);
-    emit(Userstate(listaUsuarios: updateList));
+    List<User> updatedList = state.listaUsuarios;
+    updatedList.add(newUser);
+    emit(Userstate(listaUsuarios: updatedList));
   }
 }

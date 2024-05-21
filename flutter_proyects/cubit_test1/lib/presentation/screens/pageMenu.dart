@@ -1,9 +1,8 @@
 import 'package:cubit_test1/presentation/bloc/cubit_username.dart';
 import 'package:cubit_test1/presentation/bloc/userState.dart';
-import 'package:cubit_test1/presentation/screens/page1.dart';
-import 'package:cubit_test1/presentation/screens/page2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class PaginaMenu extends StatelessWidget {
   const PaginaMenu({super.key});
@@ -18,12 +17,7 @@ class PaginaMenu extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const PaginaName()));
-                    },
+                    onPressed: () => context.go("/lista"),
                     child: const Text("Lista de usuarios")),
                 ElevatedButton(
                   onPressed: () {
@@ -32,12 +26,7 @@ class PaginaMenu extends StatelessWidget {
                   child: const Text("Limpiar lista"),
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const PaginaCrear()));
-                    },
+                    onPressed: () => context.go("/crear"),
                     child: const Text("Agregar Usuario")),
               ],
             ),
