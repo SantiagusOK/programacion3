@@ -29,7 +29,7 @@ async def update_a_event(id:int, session=Depends(get_session)):
     
     statements = select(Event).where(Event.id == id)
     
-    eventUpdate = session.exec(statements)
+    eventUpdate : Event = session.exec(statements).all()[0]
     
     print(eventUpdate)
     
