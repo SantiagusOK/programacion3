@@ -32,6 +32,7 @@ async def retrieve_all_events(session=Depends(get_session)):
 async def get_a_event(id : int, session=Depends(get_session)):
     statements = select(Event).where(Event.id == id)
     event = session.exec(statements).all()
+    
     if event:
         return event
     
@@ -46,15 +47,13 @@ async def get_a_event(id : int, session=Depends(get_session)):
 async def update_a_event(id:int, session=Depends(get_session)):
     statements = select(Event).where(Event.id == id)
     
-    aEvent = session.exec(statements).all()
+    aEvent = session.exec(statements).one()
     
-    eventUpdate : Event = aEvent[0]
+    aEvent.title = "Fruta"
     
-    eventUpdate.title = "Tortita"
-    
-    session.add(eventUpdate)
+    session.add(aEvent)
     session.commit()
-    session.refresh(eventUpdate)
+    session.refresh(aEvent)
     
     
     raise HTTPException(
@@ -103,3 +102,27 @@ async def delete_event(id: int, session=Depends(get_session)) -> dict:
         status_code=status.HTTP_404_NOT_FOUND,
         detail="Event with supplied ID does not exist"
     )
+    
+    
+@event_router.delete("/cleanDB")
+async def clean_all_db(session=Depends(get_session)):
+    statements = select(Event)
+    
+    results = session.exec(statements).all()
+    
+    if results:
+        for event in results:
+            session.delete(event)
+        
+        session.commit()
+        
+        raise HTTPException(
+            status.HTTP_200_OK,
+            detail="DB limpiada con exito"
+        )
+        
+    else:
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST,
+            detail="La DB está vacia"
+        )
