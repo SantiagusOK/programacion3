@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
+import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
 
 class CrearUsuarioPage extends StatelessWidget {
@@ -14,14 +14,13 @@ class CrearUsuarioPage extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
 
     void guardarDatos() {
-      AdaptadorBibliotecaMemoria adaptador = AdaptadorBibliotecaMemoria();
       Usuario newUsuario = Usuario(
           int.parse(dniController.text),
           nombreController.text,
           apellidoController.text,
           int.parse(telefonoController.text),
           emailController.text);
-      adaptador.agregarUsuario(newUsuario);
+      adaptadorMemoria.agregarUsuario(newUsuario);
     }
 
     return Scaffold(

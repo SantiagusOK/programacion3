@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
+import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 
 class DevolverLibrosPage extends StatelessWidget {
@@ -7,9 +7,6 @@ class DevolverLibrosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AdaptadorBibliotecaMemoria adaptadorBiblioteca =
-        AdaptadorBibliotecaMemoria();
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -18,9 +15,9 @@ class DevolverLibrosPage extends StatelessWidget {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.only(top: 30),
-        itemCount: adaptadorBiblioteca.listaDelibros.length,
+        itemCount: adaptadorFirebase.todosLosLibros().length,
         itemBuilder: (BuildContext context, int index) {
-          List<Libro> libros = adaptadorBiblioteca.listaDelibros;
+          List<Libro> libros = adaptadorFirebase.todosLosLibros();
           return Center(
             child: Column(
               children: [

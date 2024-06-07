@@ -6,6 +6,8 @@ import 'package:flutter_application_1/presentacion/pantalla_agregar_usuario.dart
 import 'package:flutter_application_1/presentacion/pantalla_devolver_libros.dart';
 import 'package:flutter_application_1/presentacion/pantalla_devolver_usuarios.dart';
 import 'package:flutter_application_1/presentacion/pantalla_librosFaltantes.dart';
+import 'package:flutter_application_1/presentacion/pantalla_movimientos.dart';
+import 'package:flutter_application_1/presentacion/pantalla_registro_devolucion.dart';
 import 'package:flutter_application_1/presentacion/pantalla_registro_retiro.dart';
 
 class MainPage extends StatelessWidget {
@@ -101,7 +103,13 @@ class MainPage extends StatelessWidget {
               width: 600,
               height: 60,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegistrarDevolucionPage(),
+                        ));
+                  },
                   child: const Text("Registrar devolucion de un libro",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
@@ -117,6 +125,20 @@ class MainPage extends StatelessWidget {
                             builder: (context) => const LibrosFaltantesPage()));
                   },
                   child: const Text("Mostrar todos los libros no devueltos",
+                      style: TextStyle(color: Colors.black, fontSize: 30))),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 600,
+              height: 60,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PageMovimientos()));
+                  },
+                  child: const Text("Movimientos",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
             const SizedBox(height: 30),

@@ -1,3 +1,8 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 import 'package:flutter_application_1/Dominio/entidades/movimiento.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
@@ -5,8 +10,14 @@ import 'package:flutter_application_1/Dominio/repositorios/repositorios_bibliote
 
 class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
   @override
-  void agregarLibro(Libro nuevoLibro) {
-    // TODO: implement agregarLibro
+  void agregarLibro(Libro nuevoLibro) async {
+    Map<String, dynamic> libro = {
+      "id": nuevoLibro.id,
+      "nombre": nuevoLibro.nombre,
+      "disponible": nuevoLibro.disponible
+    };
+
+    await coleccion.add(libro);
   }
 
   @override
@@ -15,19 +26,39 @@ class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
   }
 
   @override
-  void agregarUsuario(Usuario nuevoUsuario) {
-    // TODO: implement agregarUsuario
-  }
+  void agregarUsuario(Usuario nuevoUsuario) async {
+    Map<String, dynamic> usuarioData = {
+      "dni": nuevoUsuario.dni,
+      "nombre": nuevoUsuario.nombre,
+      "apellido": nuevoUsuario.apellido,
+      "telefono": nuevoUsuario.telefono,
+      "email": nuevoUsuario.email
+    };
 
-  @override
-  List<Libro> todosLosLibros() {
-    // TODO: implement todosLosLibros
-    throw UnimplementedError();
+    await coleccionUser.add(usuarioData);
   }
 
   @override
   void todosLosLibrosNoVueltos() {
     // TODO: implement todosLosLibrosNoVueltos
+  }
+
+  @override
+  List<Libro> todosLosLibros() {
+    List<Libro> listaLibrosFirebase = [];
+
+    coleccion.get().then(
+      (QuerySnapshot querySnapshot) {
+        for (DocumentSnapshot documento in querySnapshot.docs) {
+          Libro libro = Libro(
+              documento["id"], documento["nombre"], documento["disponible"]);
+
+          listaLibrosFirebase.add(libro);
+        }
+      },
+    );
+
+    return listaLibrosFirebase;
   }
 
   @override

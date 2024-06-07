@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
+import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 
 class CrearLibroPage extends StatelessWidget {
@@ -7,14 +7,13 @@ class CrearLibroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AdaptadorBibliotecaMemoria adaptador = AdaptadorBibliotecaMemoria();
-
     TextEditingController nombreLibro = TextEditingController();
 
     void guardarLibro() {
-      int newId = adaptador.listaDelibros.length + 1;
+      int newId = adaptadorMemoria.listaDelibros.length + 1;
       Libro newLibro = Libro(newId, nombreLibro.text, true);
-      adaptador.agregarLibro(newLibro);
+      adaptadorMemoria.agregarLibro(newLibro);
+      adaptadorFirebase.agregarLibro(newLibro);
     }
 
     return Scaffold(

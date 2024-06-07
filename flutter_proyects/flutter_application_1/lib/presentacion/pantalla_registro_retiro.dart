@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/caso_de_uso/administracion_de_biblioteca.dart';
+import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
@@ -12,20 +12,15 @@ class RegistrarRetiroPage extends StatefulWidget {
 }
 
 class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
-  AdaptadorBibliotecaMemoria adaptador = AdaptadorBibliotecaMemoria();
-
   int indexUsuarioSeleccionado = -1;
   int indexLibroSeleccionado = -1;
 
   void regitrarRetiro() {
-    AdaptadorBibliotecaMemoria adaptador = AdaptadorBibliotecaMemoria();
-    AdministracionDeBiblioteca admins =
-        AdministracionDeBiblioteca(adaptadorMemoria: adaptador);
-
     DateTime fecha = DateTime.now();
-    Usuario usuario = adaptador.listaDeUsuarios[indexUsuarioSeleccionado];
-    Libro libro = adaptador.listaDelibros[indexLibroSeleccionado];
-    admins.registrarEntregaDeLibro(fecha, libro, usuario);
+    Usuario usuario =
+        adaptadorMemoria.listaDeUsuarios[indexUsuarioSeleccionado];
+    Libro libro = adaptadorMemoria.listaDelibros[indexLibroSeleccionado];
+    adminsBiblioteca.registrarEntregaDeLibro(fecha, libro, usuario);
 
     setState(() {
       indexLibroSeleccionado = -1;
@@ -50,13 +45,13 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
                 Column(children: [
                   const Text("Usuarios",
                       style: TextStyle(fontSize: 30, color: Colors.white)),
-                  ListaUsuarios(adaptador)
+                  ListaUsuarios(adaptadorMemoria)
                 ]),
                 const SizedBox(width: 10),
                 Column(children: [
                   const Text("Libros",
                       style: TextStyle(fontSize: 30, color: Colors.white)),
-                  ListaLibros(adaptador)
+                  ListaLibros(adaptadorMemoria)
                 ]),
               ],
             ),

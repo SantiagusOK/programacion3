@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
+import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
 
 class DevolverUsuarioPage extends StatelessWidget {
@@ -7,9 +7,6 @@ class DevolverUsuarioPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AdaptadorBibliotecaMemoria adaptadorBiblioteca =
-        AdaptadorBibliotecaMemoria();
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -18,9 +15,9 @@ class DevolverUsuarioPage extends StatelessWidget {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.only(top: 30, left: 100, right: 100),
-        itemCount: adaptadorBiblioteca.listaDeUsuarios.length,
+        itemCount: adaptadorMemoria.listaDeUsuarios.length,
         itemBuilder: (BuildContext context, int index) {
-          Usuario usuario = adaptadorBiblioteca.listaDeUsuarios[index];
+          Usuario usuario = adaptadorMemoria.listaDeUsuarios[index];
           return listViewUsuario(usuario, index);
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),

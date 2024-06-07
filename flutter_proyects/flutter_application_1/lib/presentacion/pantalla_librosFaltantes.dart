@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 
@@ -6,17 +7,15 @@ class LibrosFaltantesPage extends StatelessWidget {
   const LibrosFaltantesPage({super.key});
   @override
   Widget build(BuildContext context) {
-    AdaptadorBibliotecaMemoria adaptador = AdaptadorBibliotecaMemoria();
-
-    List<Libro> librosLista = adaptador.todosLosLibrosNoVueltos();
+    List<Libro> librosLista = adaptadorMemoria.todosLosLibrosNoVueltos();
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 58, 58, 58),
       appBar: AppBar(title: const Text("Libros faltantes"), centerTitle: true),
       body: Center(
         child: SizedBox(
-            width: 500,
+            width: 800,
             child: librosLista.isNotEmpty
-                ? widgetListaBuild(adaptador)
+                ? widgetListaBuild(adaptadorMemoria)
                 : textNofaltanLibros()),
       ),
     );
@@ -31,18 +30,18 @@ class LibrosFaltantesPage extends StatelessWidget {
         Libro libroFaltante = adaptador.todosLosLibrosNoVueltos()[index];
         return Column(
           children: [
-            contaierLibrosFaltantes(libroFaltante),
+            containerLibrosFaltantes(libroFaltante),
           ],
         );
       },
     );
   }
 
-  Container contaierLibrosFaltantes(Libro libro) {
+  Container containerLibrosFaltantes(Libro libro) {
     return Container(
-      height: 200,
+      height: 100,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(0),
         color: const Color.fromARGB(255, 85, 85, 85),
       ),
       child: Center(
