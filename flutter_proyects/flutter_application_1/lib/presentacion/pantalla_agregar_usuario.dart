@@ -20,7 +20,7 @@ class CrearUsuarioPage extends StatelessWidget {
           apellidoController.text,
           int.parse(telefonoController.text),
           emailController.text);
-      adaptadorMemoria.agregarUsuario(newUsuario);
+      adaptadorFirebase.agregarUsuario(newUsuario);
     }
 
     return Scaffold(

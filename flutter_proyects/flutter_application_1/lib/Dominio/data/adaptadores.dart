@@ -10,6 +10,11 @@ AdaptadorBibliotecaFirebase adaptadorFirebase = AdaptadorBibliotecaFirebase();
 AdministracionDeBiblioteca adminsBiblioteca =
     AdministracionDeBiblioteca(adaptadorMemoria: adaptadorMemoria);
 
-CollectionReference coleccion = FirebaseFirestore.instance.collection("Libros");
+CollectionReference coleccionLibros =
+    FirebaseFirestore.instance.collection("Libros");
+
 CollectionReference coleccionUser =
     FirebaseFirestore.instance.collection("Usuarios");
+
+CollectionReference coleccionMovimiento =
+    FirebaseFirestore.instance.collection("Movimientos");

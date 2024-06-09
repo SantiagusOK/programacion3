@@ -58,5 +58,23 @@ class AdaptadorBibliotecaMemoria implements RepositorioBiblioteca {
     }
 
     return librosFaltantes;
+  }
+
+  @override
+  Future<List<Libro>> todosLosLibrosFirebase() {
+    // TODO: implement todosLosLibrosFirebase
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List> todosLosUsuariosFirebase() {
+    // TODO: implement todosLosUsuariosFirebase
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List> todosLosLibrosNoVueltosFirebase() {
+    // TODO: implement todosLosLibrosNoVueltosFirebase
+    throw UnimplementedError();
   } // List<Libro>
 }

@@ -127,7 +127,7 @@ class MainPage extends StatelessWidget {
                   child: const Text("Mostrar todos los libros no devueltos",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
-            const SizedBox(height: 10),
+            /*const SizedBox(height: 10),
             SizedBox(
               width: 600,
               height: 60,
@@ -140,7 +140,7 @@ class MainPage extends StatelessWidget {
                   },
                   child: const Text("Movimientos",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
-            ),
+            ),*/
             const SizedBox(height: 30),
             SizedBox(
               width: 600,

@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 import 'package:flutter_application_1/Dominio/entidades/movimiento.dart';
@@ -18,7 +19,7 @@ class AdministracionDeBiblioteca {
     MovimientoDeBiblioteca nuevoMovimiento =
         MovimientoDeBiblioteca(fecha, usuario, libro, false);
 
-    adaptadorMemoria.agregarMovimiento(nuevoMovimiento);
+    adaptadorFirebase.agregarMovimiento(nuevoMovimiento);
   }
 
   void registrarDevolucionDeLibro(

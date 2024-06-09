@@ -17,12 +17,61 @@ class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
       "disponible": nuevoLibro.disponible
     };
 
-    await coleccion.add(libro);
+    await coleccionLibros.add(libro);
   }
 
   @override
-  void agregarMovimiento(MovimientoDeBiblioteca nuevoMovimiento) {
-    // TODO: implement agregarMovimiento
+  Future<List> todosLosLibrosFirebase() async {
+    List librosFirebase = [];
+
+    QuerySnapshot querySnapshot = await coleccionLibros.get();
+
+    querySnapshot.docs.forEach((element) {
+      Map<String, dynamic> datos = element.data() as Map<String, dynamic>;
+      Libro libro = Libro(
+        datos["id"],
+        datos["nombre"],
+        datos["disponible"],
+      );
+      librosFirebase.add(libro);
+      //print(datos);
+    });
+    return librosFirebase;
+  }
+
+  @override
+  Future<List> todosLosLibrosNoVueltosFirebase() async {
+    List librosNoVueltosFirebase = [];
+
+    QuerySnapshot querySnapshot = await coleccionLibros.get();
+
+    querySnapshot.docs.forEach((element) {
+      Map<String, dynamic> documento = element.data() as Map<String, dynamic>;
+
+      Libro libro = Libro(
+        documento["id"],
+        documento["nombre"],
+        documento["disponible"],
+      );
+
+      if (!libro.disponible) {
+        librosNoVueltosFirebase.add(libro);
+      }
+    });
+
+    return librosNoVueltosFirebase;
+  }
+
+  @override
+  void agregarMovimiento(MovimientoDeBiblioteca nuevoMovimiento) async {
+    Map<String, dynamic> MovData = {
+      "fecha": nuevoMovimiento.fecha,
+      "usuario": nuevoMovimiento.usuario,
+      "libro": nuevoMovimiento.libro,
+      "esDevolucion": nuevoMovimiento.esDevolucion
+    };
+
+    await coleccionMovimiento.add(MovData);
   }
 
   @override
@@ -39,31 +88,44 @@ class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
   }
 
   @override
+  Future<List> todosLosUsuariosFirebase() async {
+    List listaUsuarioFirebase = [];
+
+    QuerySnapshot querySnapshot = await coleccionUser.get();
+
+    querySnapshot.docs.forEach(
+      (element) {
+        Map<String, dynamic> documento = element.data() as Map<String, dynamic>;
+
+        Usuario usuario = Usuario(
+          documento["dni"],
+          documento["nombre"],
+          documento["apellido"],
+          documento["telefono"],
+          documento["email"],
+        );
+
+        listaUsuarioFirebase.add(usuario);
+      },
+    );
+
+    return listaUsuarioFirebase;
+  }
+
+  @override
   void todosLosLibrosNoVueltos() {
     // TODO: implement todosLosLibrosNoVueltos
   }
 
   @override
-  List<Libro> todosLosLibros() {
-    List<Libro> listaLibrosFirebase = [];
-
-    coleccion.get().then(
-      (QuerySnapshot querySnapshot) {
-        for (DocumentSnapshot documento in querySnapshot.docs) {
-          Libro libro = Libro(
-              documento["id"], documento["nombre"], documento["disponible"]);
-
-          listaLibrosFirebase.add(libro);
-        }
-      },
-    );
-
-    return listaLibrosFirebase;
+  List<Usuario> todosLosUsuarios() {
+    // TODO: implement todosLosUsuarios
+    throw UnimplementedError();
   }
 
   @override
-  List<Usuario> todosLosUsuarios() {
-    // TODO: implement todosLosUsuarios
+  List<Libro> todosLosLibros() {
+    // TODO: implement todosLosLibros
     throw UnimplementedError();
   }
 }

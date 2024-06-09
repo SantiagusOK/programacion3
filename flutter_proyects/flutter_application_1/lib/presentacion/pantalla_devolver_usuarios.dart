@@ -8,21 +8,32 @@ class DevolverUsuarioPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text("Lista de Usuarios", style: TextStyle(fontSize: 35)),
-        centerTitle: true,
-      ),
-      body: ListView.separated(
-        padding: const EdgeInsets.only(top: 30, left: 100, right: 100),
-        itemCount: adaptadorMemoria.listaDeUsuarios.length,
-        itemBuilder: (BuildContext context, int index) {
-          Usuario usuario = adaptadorMemoria.listaDeUsuarios[index];
-          return listViewUsuario(usuario, index);
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ),
-    );
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+            title:
+                const Text("Lista de Usuarios", style: TextStyle(fontSize: 35)),
+            centerTitle: true),
+        body: FutureBuilder(
+            future: adaptadorFirebase.todosLosUsuariosFirebase(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.separated(
+                  padding:
+                      const EdgeInsets.only(top: 30, left: 100, right: 100),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Usuario usuario = snapshot.data?[index];
+                    return listViewUsuario(usuario, index);
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }));
   }
 
   Container listViewUsuario(Usuario usuario, int index) {
@@ -33,7 +44,7 @@ class DevolverUsuarioPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(5)),
         child: Center(
             child: Text(
-                "${usuario.dni} | ${usuario.nombre} - ${usuario.apellido} | ${usuario.telefono} | ${usuario.email}",
+                "${usuario.dni} | ${usuario.nombre} ${usuario.apellido} | ${usuario.telefono} | ${usuario.email}",
                 style: const TextStyle(fontSize: 30, color: Colors.white))));
   }
 }
