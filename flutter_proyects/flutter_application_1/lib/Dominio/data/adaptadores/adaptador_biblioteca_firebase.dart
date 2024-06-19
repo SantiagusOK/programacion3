@@ -53,7 +53,6 @@ class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
         documento["nombre"],
         documento["disponible"],
       );
-
       if (!libro.disponible) {
         librosNoVueltosFirebase.add(libro);
       }
