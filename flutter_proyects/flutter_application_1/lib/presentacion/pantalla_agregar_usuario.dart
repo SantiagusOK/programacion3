@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
+import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
 
 class CrearUsuarioPage extends StatelessWidget {

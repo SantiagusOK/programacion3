@@ -7,17 +7,11 @@ abstract class RepositorioBiblioteca {
 
   void agregarUsuario(Usuario nuevoUsuario);
 
-  List<Libro> todosLosLibros();
+  Future<List<Libro>> todosLosLibros();
 
-  Future<List> todosLosLibrosFirebase();
-
-  List<Usuario> todosLosUsuarios();
-
-  Future<List> todosLosUsuariosFirebase();
+  Future<List<Usuario>> todosLosUsuarios();
 
   void agregarMovimiento(MovimientoDeBiblioteca nuevoMovimiento);
 
-  void todosLosLibrosNoVueltos();
-
-  Future<List> todosLosLibrosNoVueltosFirebase(); // List<Libro>
+  Future<List<Libro>> todosLosLibrosNoVueltos(); // List<Libro>
 }

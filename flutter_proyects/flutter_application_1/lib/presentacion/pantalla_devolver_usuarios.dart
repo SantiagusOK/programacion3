@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
+import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
 
 class DevolverUsuarioPage extends StatelessWidget {
@@ -14,7 +14,7 @@ class DevolverUsuarioPage extends StatelessWidget {
                 const Text("Lista de Usuarios", style: TextStyle(fontSize: 35)),
             centerTitle: true),
         body: FutureBuilder(
-            future: adaptadorFirebase.todosLosUsuariosFirebase(),
+            future: adaptadorFirebase.todosLosUsuarios(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.separated(
@@ -22,7 +22,7 @@ class DevolverUsuarioPage extends StatelessWidget {
                       const EdgeInsets.only(top: 30, left: 100, right: 100),
                   itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    Usuario usuario = snapshot.data?[index];
+                    Usuario usuario = snapshot.data![index];
                     return listViewUsuario(usuario, index);
                   },
                   separatorBuilder: (BuildContext context, int index) =>

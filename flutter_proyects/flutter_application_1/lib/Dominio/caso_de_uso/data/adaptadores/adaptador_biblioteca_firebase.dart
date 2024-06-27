@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
+import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 import 'package:flutter_application_1/Dominio/entidades/movimiento.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
@@ -18,30 +17,36 @@ class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
     };
 
     await coleccionLibros.add(libro);
+    //await coleccionLibros.doc().g
   }
 
   @override
-  Future<List> todosLosLibrosFirebase() async {
-    List librosFirebase = [];
+  Future<List<Libro>> todosLosLibros() async {
+    // List librosFirebase = [];
 
-    QuerySnapshot querySnapshot = await coleccionLibros.get();
+    //QuerySnapshot querySnapshot = await coleccionLibros.get();
 
-    querySnapshot.docs.forEach((element) {
-      Map<String, dynamic> datos = element.data() as Map<String, dynamic>;
-      Libro libro = Libro(
-        datos["id"],
-        datos["nombre"],
-        datos["disponible"],
-      );
-      librosFirebase.add(libro);
-      //print(datos);
-    });
-    return librosFirebase;
+    return (await coleccionLibros.get())
+        .docs
+        .map((element) => element.data() as Map<String, dynamic>)
+        .map((dict) => Libro(dict["id"], dict["nombre"], dict["disponible"]))
+        .toList();
+    // for (var element in querySnapshot.docs) {
+    //   Map<String, dynamic> datos = element.data() as Map<String, dynamic>;
+    //   Libro libro = Libro(
+    //     datos["id"],
+    //     datos["nombre"],
+    //     datos["disponible"],
+    //   );
+    //   librosFirebase.add(libro);
+    //   //print(datos);
+    // }
+    // return librosFirebase;
   }
 
   @override
-  Future<List> todosLosLibrosNoVueltosFirebase() async {
-    List librosNoVueltosFirebase = [];
+  Future<List<Libro>> todosLosLibrosNoVueltos() async {
+    List<Libro> librosNoVueltosFirebase = [];
 
     QuerySnapshot querySnapshot = await coleccionLibros.get();
 
@@ -87,8 +92,8 @@ class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
   }
 
   @override
-  Future<List> todosLosUsuariosFirebase() async {
-    List listaUsuarioFirebase = [];
+  Future<List<Usuario>> todosLosUsuarios() async {
+    List<Usuario> listaUsuarioFirebase = [];
 
     QuerySnapshot querySnapshot = await coleccionUser.get();
 
@@ -109,22 +114,5 @@ class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
     );
 
     return listaUsuarioFirebase;
-  }
-
-  @override
-  void todosLosLibrosNoVueltos() {
-    // TODO: implement todosLosLibrosNoVueltos
-  }
-
-  @override
-  List<Usuario> todosLosUsuarios() {
-    // TODO: implement todosLosUsuarios
-    throw UnimplementedError();
-  }
-
-  @override
-  List<Libro> todosLosLibros() {
-    // TODO: implement todosLosLibros
-    throw UnimplementedError();
   }
 }

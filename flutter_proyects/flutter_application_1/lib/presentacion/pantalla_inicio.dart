@@ -6,7 +6,6 @@ import 'package:flutter_application_1/presentacion/pantalla_agregar_usuario.dart
 import 'package:flutter_application_1/presentacion/pantalla_devolver_libros.dart';
 import 'package:flutter_application_1/presentacion/pantalla_devolver_usuarios.dart';
 import 'package:flutter_application_1/presentacion/pantalla_librosFaltantes.dart';
-import 'package:flutter_application_1/presentacion/pantalla_movimientos.dart';
 import 'package:flutter_application_1/presentacion/pantalla_registro_devolucion.dart';
 import 'package:flutter_application_1/presentacion/pantalla_registro_retiro.dart';
 

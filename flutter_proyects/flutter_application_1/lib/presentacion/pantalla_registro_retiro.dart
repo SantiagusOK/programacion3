@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
+import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
 
@@ -15,11 +14,12 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
   int indexUsuarioSeleccionado = -1;
   int indexLibroSeleccionado = -1;
 
-  void regitrarRetiro() {
+  void regitrarRetiro() async {
+    List<Libro> listaLibro = await adaptadorFirebase.todosLosLibros();
+    List<Usuario> listaUsuario = await adaptadorFirebase.todosLosUsuarios();
     DateTime fecha = DateTime.now();
-    Usuario usuario =
-        adaptadorMemoria.listaDeUsuarios[indexUsuarioSeleccionado];
-    Libro libro = adaptadorMemoria.listaDelibros[indexLibroSeleccionado];
+    Usuario usuario = listaUsuario[indexUsuarioSeleccionado];
+    Libro libro = listaLibro[indexLibroSeleccionado];
     adminsBiblioteca.registrarEntregaDeLibro(fecha, libro, usuario);
 
     setState(() {
@@ -45,13 +45,13 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
                 Column(children: [
                   const Text("Usuarios",
                       style: TextStyle(fontSize: 30, color: Colors.white)),
-                  ListaUsuarios(adaptadorMemoria)
+                  ListaUsuarios()
                 ]),
                 const SizedBox(width: 10),
                 Column(children: [
                   const Text("Libros",
                       style: TextStyle(fontSize: 30, color: Colors.white)),
-                  ListaLibros(adaptadorMemoria)
+                  ListaLibros()
                 ]),
               ],
             ),
@@ -76,47 +76,54 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
     );
   }
 
-  Container ListaUsuarios(AdaptadorBibliotecaMemoria adaptador) {
-    return Container(
-      width: 500,
-      height: 500,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 112, 112, 112),
-          borderRadius: BorderRadius.circular(5)),
-      child: ListView.separated(
-        itemCount: adaptador.listaDeUsuarios.length,
-        itemBuilder: (BuildContext context, int index) {
-          Usuario user = adaptador.listaDeUsuarios[index];
-          return SizedBox(
-            height: 100,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: index == indexUsuarioSeleccionado
-                        ? Colors.red
-                        : const Color.fromARGB(255, 134, 134, 134),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                onPressed: () {
-                  setState(() {
-                    if (index != indexUsuarioSeleccionado) {
-                      indexUsuarioSeleccionado = index;
-                    } else {
-                      indexUsuarioSeleccionado = -1;
-                    }
-                  });
-                },
-                child: Text(
-                    "${user.nombre} ${user.apellido}\nD.N.I: ${user.dni}",
-                    style: const TextStyle(color: Colors.white, fontSize: 15))),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ),
+  FutureBuilder ListaUsuarios() {
+    return FutureBuilder(
+      future: adaptadorFirebase.todosLosUsuarios(),
+      builder: (context, snapshot) {
+        return Container(
+          width: 500,
+          height: 500,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 112, 112, 112),
+              borderRadius: BorderRadius.circular(5)),
+          child: ListView.separated(
+            itemCount: snapshot.data.length,
+            itemBuilder: (BuildContext context, int index) {
+              Usuario user = snapshot.data[index];
+              return SizedBox(
+                height: 100,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: index == indexUsuarioSeleccionado
+                            ? Colors.red
+                            : const Color.fromARGB(255, 134, 134, 134),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    onPressed: () {
+                      setState(() {
+                        if (index != indexUsuarioSeleccionado) {
+                          indexUsuarioSeleccionado = index;
+                        } else {
+                          indexUsuarioSeleccionado = -1;
+                        }
+                      });
+                    },
+                    child: Text(
+                        "${user.nombre} ${user.apellido}\nD.N.I: ${user.dni}",
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 15))),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+          ),
+        );
+      },
     );
   }
 
-  Container ListaLibros(AdaptadorBibliotecaMemoria adaptador) {
+  FutureBuilder ListaLibros() {
     // devuelve un color para el container, dependiendo si el libro esta disponible o no, y si esta disponible, verificara si esta
     //seleccionado, si es asi, devolvera un color rojo, si no, un color gris de modo normal
     Color estadoLibro(bool libroDisponible, index) {
@@ -130,43 +137,50 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
       return const Color.fromARGB(255, 134, 134, 134);
     }
 
-    return Container(
-      width: 500,
-      height: 500,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 112, 112, 112),
-          borderRadius: BorderRadius.circular(5)),
-      child: ListView.separated(
-        itemCount: adaptador.listaDelibros.length,
-        itemBuilder: (BuildContext context, int index) {
-          Libro libro = adaptador.listaDelibros[index];
-          return SizedBox(
-            height: 100,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: estadoLibro(libro.disponible, index),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                onPressed: () {
-                  if (libro.disponible) {
-                    setState(() {
-                      if (index != indexLibroSeleccionado) {
-                        indexLibroSeleccionado = index;
+    return FutureBuilder(
+      future: adaptadorFirebase.todosLosLibros(),
+      builder: (context, snapshot) {
+        return Container(
+          width: 500,
+          height: 500,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 112, 112, 112),
+              borderRadius: BorderRadius.circular(5)),
+          child: ListView.separated(
+            itemCount: snapshot.data.length,
+            itemBuilder: (BuildContext context, int index) {
+              Libro libro = snapshot.data[index];
+              return SizedBox(
+                height: 100,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: estadoLibro(libro.disponible, index),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                    onPressed: () {
+                      if (libro.disponible) {
+                        setState(() {
+                          if (index != indexLibroSeleccionado) {
+                            indexLibroSeleccionado = index;
+                          } else {
+                            indexLibroSeleccionado = -1;
+                          }
+                        });
                       } else {
-                        indexLibroSeleccionado = -1;
+                        null;
                       }
-                    });
-                  } else {
-                    null;
-                  }
-                },
-                child: Text(libro.nombre,
-                    style: const TextStyle(color: Colors.white, fontSize: 15))),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => const Divider(),
-      ),
+                    },
+                    child: Text(libro.nombre,
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 15))),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+          ),
+        );
+      },
     );
   }
 }

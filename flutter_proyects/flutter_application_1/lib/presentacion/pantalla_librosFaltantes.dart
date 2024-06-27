@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores/adaptador_biblioteca.dart';
+import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 
 class LibrosFaltantesPage extends StatelessWidget {
   const LibrosFaltantesPage({super.key});
   @override
   Widget build(BuildContext context) {
-    List<Libro> librosLista = adaptadorMemoria.todosLosLibrosNoVueltos();
+    //List<Libro> librosLista = adaptadorMemoria.todosLosLibrosNoVueltos();
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 58, 58, 58),
-      appBar: AppBar(title: const Text("Libros faltantes"), centerTitle: true),
-      body: Center(
-        child: SizedBox(
-            width: 800,
-            child: librosLista.isNotEmpty
-                ? widgetListaBuild(adaptadorMemoria)
-                : textNofaltanLibros()),
-      ),
-    );
+        backgroundColor: const Color.fromARGB(255, 58, 58, 58),
+        appBar:
+            AppBar(title: const Text("Libros faltantes"), centerTitle: true),
+        body: FutureBuilder(
+          future: adaptadorFirebase.todosLosLibrosNoVueltos(),
+          builder: (context, snapshot) {
+            return Center(
+              child: SizedBox(
+                  width: 800,
+                  child: snapshot.data!.isNotEmpty
+                      ? widgetListaBuild(snapshot)
+                      : textNofaltanLibros()),
+            );
+          },
+        ));
   }
 
-  ListView widgetListaBuild(AdaptadorBibliotecaMemoria adaptador) {
+  ListView widgetListaBuild(AsyncSnapshot snapshot) {
     return ListView.separated(
       padding: const EdgeInsets.all(20),
-      itemCount: adaptador.todosLosLibrosNoVueltos().length,
+      itemCount: snapshot.data.length,
       separatorBuilder: (BuildContext context, int index) => const Divider(),
       itemBuilder: (BuildContext context, int index) {
-        Libro libroFaltante = adaptador.todosLosLibrosNoVueltos()[index];
+        Libro libroFaltante = snapshot.data[index];
         return Column(
           children: [
             containerLibrosFaltantes(libroFaltante),

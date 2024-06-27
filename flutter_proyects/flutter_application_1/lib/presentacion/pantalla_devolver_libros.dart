@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Dominio/data/adaptadores.dart';
-import 'package:flutter_application_1/Dominio/entidades/libro.dart';
+import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 
 class DevolverLibrosPage extends StatelessWidget {
   const DevolverLibrosPage({super.key});
@@ -14,7 +13,7 @@ class DevolverLibrosPage extends StatelessWidget {
           centerTitle: true,
         ),
         body: FutureBuilder(
-          future: adaptadorFirebase.todosLosLibrosFirebase(),
+          future: adaptadorFirebase.todosLosLibros(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -29,7 +28,7 @@ class DevolverLibrosPage extends StatelessWidget {
                           color: const Color.fromARGB(255, 165, 190, 166),
                           child: Center(
                             child: Text(
-                              snapshot.data?[index].nombre,
+                              snapshot.data![index].nombre,
                               style: const TextStyle(
                                   fontSize: 30, color: Colors.white),
                             ),
