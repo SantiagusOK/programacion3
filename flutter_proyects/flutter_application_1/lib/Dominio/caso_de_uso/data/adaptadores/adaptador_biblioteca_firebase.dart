@@ -70,8 +70,8 @@ class AdaptadorBibliotecaFirebase implements RepositorioBiblioteca {
   void agregarMovimiento(MovimientoDeBiblioteca nuevoMovimiento) async {
     Map<String, dynamic> MovData = {
       "fecha": nuevoMovimiento.fecha,
-      "usuario": nuevoMovimiento.usuario,
-      "libro": nuevoMovimiento.libro,
+      "usuario": nuevoMovimiento.usuario.toMap(),
+      "libro": nuevoMovimiento.libro.toMap(),
       "esDevolucion": nuevoMovimiento.esDevolucion
     };
 

@@ -72,5 +72,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'appdelibros-6e0e9.appspot.com',
     iosBundleId: 'com.example.flutterApplication1',
   );
-
 }

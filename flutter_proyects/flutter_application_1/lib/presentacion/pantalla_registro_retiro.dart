@@ -76,54 +76,61 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
     );
   }
 
-  FutureBuilder ListaUsuarios() {
-    return FutureBuilder(
-      future: adaptadorFirebase.todosLosUsuarios(),
-      builder: (context, snapshot) {
-        return Container(
-          width: 500,
-          height: 500,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 112, 112, 112),
-              borderRadius: BorderRadius.circular(5)),
-          child: ListView.separated(
-            itemCount: snapshot.data.length,
-            itemBuilder: (BuildContext context, int index) {
-              Usuario user = snapshot.data[index];
-              return SizedBox(
-                height: 100,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: index == indexUsuarioSeleccionado
-                            ? Colors.red
-                            : const Color.fromARGB(255, 134, 134, 134),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {
-                      setState(() {
-                        if (index != indexUsuarioSeleccionado) {
-                          indexUsuarioSeleccionado = index;
-                        } else {
-                          indexUsuarioSeleccionado = -1;
-                        }
-                      });
-                    },
-                    child: Text(
-                        "${user.nombre} ${user.apellido}\nD.N.I: ${user.dni}",
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 15))),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-          ),
-        );
-      },
-    );
+  Container ListaUsuarios() {
+    return Container(
+        width: 500,
+        height: 500,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 112, 112, 112),
+            borderRadius: BorderRadius.circular(5)),
+        child: FutureBuilder(
+          future: adaptadorFirebase.todosLosUsuarios(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isNotEmpty) {
+                return ListView.separated(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Usuario user = snapshot.data![index];
+                    return SizedBox(
+                      height: 100,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: index == indexUsuarioSeleccionado
+                                  ? Colors.red
+                                  : const Color.fromARGB(255, 134, 134, 134),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          onPressed: () {
+                            setState(() {
+                              if (index != indexUsuarioSeleccionado) {
+                                indexUsuarioSeleccionado = index;
+                              } else {
+                                indexUsuarioSeleccionado = -1;
+                              }
+                            });
+                          },
+                          child: Text(
+                              "${user.nombre} ${user.apellido}\nD.N.I: ${user.dni}",
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15))),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                );
+              } else {
+                return const Text("No hay usuarios");
+              }
+            } else {
+              return const CircularProgressIndicator(color: Colors.white);
+            }
+          },
+        ));
   }
 
-  FutureBuilder ListaLibros() {
+  Container ListaLibros() {
     // devuelve un color para el container, dependiendo si el libro esta disponible o no, y si esta disponible, verificara si esta
     //seleccionado, si es asi, devolvera un color rojo, si no, un color gris de modo normal
     Color estadoLibro(bool libroDisponible, index) {
@@ -137,50 +144,58 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
       return const Color.fromARGB(255, 134, 134, 134);
     }
 
-    return FutureBuilder(
-      future: adaptadorFirebase.todosLosLibros(),
-      builder: (context, snapshot) {
-        return Container(
-          width: 500,
-          height: 500,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 112, 112, 112),
-              borderRadius: BorderRadius.circular(5)),
-          child: ListView.separated(
-            itemCount: snapshot.data.length,
-            itemBuilder: (BuildContext context, int index) {
-              Libro libro = snapshot.data[index];
-              return SizedBox(
-                height: 100,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: estadoLibro(libro.disponible, index),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {
-                      if (libro.disponible) {
-                        setState(() {
-                          if (index != indexLibroSeleccionado) {
-                            indexLibroSeleccionado = index;
-                          } else {
-                            indexLibroSeleccionado = -1;
-                          }
-                        });
-                      } else {
-                        null;
-                      }
-                    },
-                    child: Text(libro.nombre,
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 15))),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-          ),
-        );
-      },
-    );
+    return Container(
+        width: 500,
+        height: 500,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 112, 112, 112),
+            borderRadius: BorderRadius.circular(5)),
+        child: FutureBuilder(
+          future: adaptadorFirebase.todosLosLibros(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isNotEmpty) {
+                return ListView.separated(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Libro libro = snapshot.data![index];
+                    return SizedBox(
+                      height: 100,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  estadoLibro(libro.disponible, index),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10))),
+                          onPressed: () {
+                            if (libro.disponible) {
+                              setState(() {
+                                if (index != indexLibroSeleccionado) {
+                                  indexLibroSeleccionado = index;
+                                } else {
+                                  indexLibroSeleccionado = -1;
+                                }
+                              });
+                            } else {
+                              null;
+                            }
+                          },
+                          child: Text(libro.nombre,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15))),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                );
+              } else {
+                return const Text("No hay libros");
+              }
+            } else {
+              return const CircularProgressIndicator(color: Colors.white);
+            }
+          },
+        ));
   }
 }

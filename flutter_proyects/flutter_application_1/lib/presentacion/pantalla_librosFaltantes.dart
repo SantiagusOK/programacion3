@@ -8,21 +8,31 @@ class LibrosFaltantesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     //List<Libro> librosLista = adaptadorMemoria.todosLosLibrosNoVueltos();
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 58, 58, 58),
-        appBar:
-            AppBar(title: const Text("Libros faltantes"), centerTitle: true),
-        body: FutureBuilder(
-          future: adaptadorFirebase.todosLosLibrosNoVueltos(),
-          builder: (context, snapshot) {
-            return Center(
-              child: SizedBox(
+      backgroundColor: const Color.fromARGB(255, 58, 58, 58),
+      appBar: AppBar(title: const Text("Libros faltantes"), centerTitle: true),
+      body: FutureBuilder(
+        future: adaptadorFirebase.todosLosLibrosNoVueltos(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.isNotEmpty) {
+              return Center(
+                child: SizedBox(
                   width: 800,
-                  child: snapshot.data!.isNotEmpty
-                      ? widgetListaBuild(snapshot)
-                      : textNofaltanLibros()),
-            );
-          },
-        ));
+                  child: widgetListaBuild(snapshot),
+                ),
+              );
+            } else {
+              return textNofaltanLibros();
+            }
+          } else {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+            ));
+          }
+        },
+      ),
+    );
   }
 
   ListView widgetListaBuild(AsyncSnapshot snapshot) {

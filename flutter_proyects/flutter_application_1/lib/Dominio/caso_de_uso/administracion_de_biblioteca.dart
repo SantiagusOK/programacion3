@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores/adaptador_biblioteca_firebase.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 import 'package:flutter_application_1/Dominio/entidades/movimiento.dart';
@@ -9,13 +11,16 @@ class AdministracionDeBiblioteca {
 
   void registrarEntregaDeLibro(
       DateTime fecha, Libro libro, Usuario usuario) async {
-    List<Libro> listaLibro = await adaptadorFirebase.todosLosLibros();
+    //List<Libro> listaLibro = await adaptadorFirebase.todosLosLibros();
 
-    for (int i = 0; i < listaLibro.length; i++) {
-      if (listaLibro[i].nombre == libro.nombre) {
-        // hacer que cambie de valor disponible a false en la DB
-        //lista.listaDelibros[i].disponible = false;
-        print("hola");
+    QuerySnapshot querySnapshot = await coleccionLibros.get();
+
+    for (var element in querySnapshot.docs) {
+      Map<String, dynamic> datos = element.data() as Map<String, dynamic>;
+
+      if (datos["nombre"] == libro.nombre) {
+        String IdDocumento = element.id;
+        coleccionLibros.doc(IdDocumento).update({"disponible": false});
       }
     }
 
@@ -27,18 +32,20 @@ class AdministracionDeBiblioteca {
 
   void registrarDevolucionDeLibro(
       DateTime fecha, Libro libro, Usuario usuario) async {
-    List<Libro> listaLibro = await adaptadorFirebase.todosLosLibros();
+    QuerySnapshot querySnapshot = await coleccionLibros.get();
 
-    for (int i = 0; i < listaLibro.length; i++) {
-      if (listaLibro[i].nombre == libro.nombre) {
-        adaptadorMemoria.listaDelibros[i].disponible = true;
+    for (var element in querySnapshot.docs) {
+      Map<String, dynamic> datos = element.data() as Map<String, dynamic>;
+
+      if (datos["nombre"] == libro.nombre) {
+        String IdDocumento = element.id;
+        coleccionLibros.doc(IdDocumento).update({"disponible": true});
       }
     }
 
-    MovimientoDeBiblioteca newMovimiento =
+    MovimientoDeBiblioteca nuevoMovimiento =
         MovimientoDeBiblioteca(fecha, usuario, libro, true);
 
-    adaptadorMemoria.agregarMovimiento(newMovimiento);
-    print("object");
+    adaptadorFirebase.agregarMovimiento(nuevoMovimiento);
   }
 }
