@@ -26,11 +26,11 @@ class AdministracionDeBiblioteca {
   }
 
   void registrarDevolucionDeLibro(
-      DateTime fecha, Libro libro, Usuario usuario) {
-    /*
-    List<Libro> libros = adaptadorMemoria.listaDelibros;
-    for (int i = 0; i < libros.length; i++) {
-      if (libros[i].nombre == libro.nombre) {
+      DateTime fecha, Libro libro, Usuario usuario) async {
+    List<Libro> listaLibro = await adaptadorFirebase.todosLosLibros();
+
+    for (int i = 0; i < listaLibro.length; i++) {
+      if (listaLibro[i].nombre == libro.nombre) {
         adaptadorMemoria.listaDelibros[i].disponible = true;
       }
     }
@@ -38,7 +38,7 @@ class AdministracionDeBiblioteca {
     MovimientoDeBiblioteca newMovimiento =
         MovimientoDeBiblioteca(fecha, usuario, libro, true);
 
-    adaptadorMemoria.agregarMovimiento(newMovimiento);*/
+    adaptadorMemoria.agregarMovimiento(newMovimiento);
     print("object");
   }
 }
