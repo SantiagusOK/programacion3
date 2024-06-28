@@ -32,6 +32,11 @@ class MainPage extends StatelessWidget {
               width: 600,
               height: 60,
               child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)))),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -41,25 +46,13 @@ class MainPage extends StatelessWidget {
                   child: const Text("Mostrar todo los libros",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
-            const SizedBox(height: 10),
             SizedBox(
               width: 600,
               height: 60,
               child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CrearLibroPage()));
-                  },
-                  child: const Text("Agregar un libro",
-                      style: TextStyle(color: Colors.black, fontSize: 30))),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: 600,
-              height: 60,
-              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0))),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -69,11 +62,52 @@ class MainPage extends StatelessWidget {
                   child: const Text("Mostrar todos los usuarios",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
+            SizedBox(
+              width: 600,
+              height: 60,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20)))),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LibrosFaltantesPage()));
+                  },
+                  child: const Text("Mostrar todos los libros no devueltos",
+                      style: TextStyle(color: Colors.black, fontSize: 30))),
+            ),
             const SizedBox(height: 10),
             SizedBox(
               width: 600,
               height: 60,
               child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)))),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CrearLibroPage()));
+                  },
+                  child: const Text("Agregar un libro",
+                      style: TextStyle(color: Colors.black, fontSize: 30))),
+            ),
+            SizedBox(
+              width: 600,
+              height: 60,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20)))),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -88,6 +122,11 @@ class MainPage extends StatelessWidget {
               width: 600,
               height: 60,
               child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)))),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -97,11 +136,15 @@ class MainPage extends StatelessWidget {
                   child: const Text("Registrar retiro de un libro",
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
-            const SizedBox(height: 10),
             SizedBox(
               width: 600,
               height: 60,
               child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20)))),
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -113,19 +156,7 @@ class MainPage extends StatelessWidget {
                       style: TextStyle(color: Colors.black, fontSize: 30))),
             ),
             const SizedBox(height: 10),
-            SizedBox(
-              width: 600,
-              height: 60,
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LibrosFaltantesPage()));
-                  },
-                  child: const Text("Mostrar todos los libros no devueltos",
-                      style: TextStyle(color: Colors.black, fontSize: 30))),
-            ),
+
             /*const SizedBox(height: 10),
             SizedBox(
               width: 600,
@@ -142,14 +173,15 @@ class MainPage extends StatelessWidget {
             ),*/
             const SizedBox(height: 30),
             SizedBox(
-              width: 600,
+              width: 200,
               height: 60,
               child: ElevatedButton(
-                  onPressed: () {
-                    exit(0);
-                  },
-                  child: const Text("Salir",
-                      style: TextStyle(color: Colors.black, fontSize: 30))),
+                onPressed: () {
+                  exit(0);
+                },
+                child: const Text("Salir",
+                    style: TextStyle(color: Colors.black, fontSize: 30)),
+              ),
             ),
           ],
         ),

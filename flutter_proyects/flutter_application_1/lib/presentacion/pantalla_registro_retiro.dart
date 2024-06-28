@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
+import 'package:flutter_application_1/presentacion/pantalla_inicio.dart';
 
 class RegistrarRetiroPage extends StatefulWidget {
   const RegistrarRetiroPage({super.key});
@@ -15,17 +16,36 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
   int indexLibroSeleccionado = -1;
 
   void regitrarRetiro() async {
-    List<Libro> listaLibro = await adaptadorFirebase.todosLosLibros();
-    List<Usuario> listaUsuario = await adaptadorFirebase.todosLosUsuarios();
-    DateTime fecha = DateTime.now();
-    Usuario usuario = listaUsuario[indexUsuarioSeleccionado];
-    Libro libro = listaLibro[indexLibroSeleccionado];
-    adminsBiblioteca.registrarEntregaDeLibro(fecha, libro, usuario);
-
-    setState(() {
-      indexLibroSeleccionado = -1;
-      indexUsuarioSeleccionado = -1;
-    });
+    if (indexLibroSeleccionado >= 0 && indexUsuarioSeleccionado >= 0) {
+      List<Libro> listaLibro = await adaptadorFirebase.todosLosLibros();
+      List<Usuario> listaUsuario = await adaptadorFirebase.todosLosUsuarios();
+      DateTime fecha = DateTime.now();
+      Usuario usuario = listaUsuario[indexUsuarioSeleccionado];
+      Libro libro = listaLibro[indexLibroSeleccionado];
+      adminsBiblioteca.registrarEntregaDeLibro(fecha, libro, usuario);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 97, 41, 37),
+        content: const Text("Retiro de un libro registrado con exito!"),
+        action: SnackBarAction(
+          textColor: Colors.white,
+          label: "cerrar",
+          onPressed: () {},
+        ),
+      ));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MainPage()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: const Text(
+            "Seleccione un usuario y libro para registrar el retiro"),
+        action: SnackBarAction(
+          textColor: Colors.white,
+          label: "cerrar",
+          onPressed: () {},
+        ),
+      ));
+    }
   }
 
   @override
@@ -121,7 +141,11 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
                       const Divider(),
                 );
               } else {
-                return const Text("No hay usuarios");
+                return const Center(
+                    child: Text(
+                  "No hay Usuarios",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ));
               }
             } else {
               return const CircularProgressIndicator(color: Colors.white);
@@ -190,7 +214,11 @@ class _RegistrarRetiroPageState extends State<RegistrarRetiroPage> {
                       const Divider(),
                 );
               } else {
-                return const Text("No hay libros");
+                return const Center(
+                    child: Text(
+                  "No hay libros",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ));
               }
             } else {
               return const CircularProgressIndicator(color: Colors.white);

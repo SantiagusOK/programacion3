@@ -39,6 +39,7 @@ class AdministracionDeBiblioteca {
 
       if (datos["nombre"] == libro.nombre) {
         String IdDocumento = element.id;
+        print(datos["nombre"]);
         coleccionLibros.doc(IdDocumento).update({"disponible": true});
       }
     }

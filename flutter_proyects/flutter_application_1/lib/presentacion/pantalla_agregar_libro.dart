@@ -14,6 +14,15 @@ class CrearLibroPage extends StatelessWidget {
       int newId = librosFirebase.length + 1;
       Libro newLibro = Libro(newId, nombreLibro.text, true);
       adaptadorFirebase.agregarLibro(newLibro);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 97, 41, 37),
+        content: const Text("Libro registrado con exito"),
+        action: SnackBarAction(
+          textColor: Colors.white,
+          label: "cerrar",
+          onPressed: () {},
+        ),
+      ));
     }
 
     return Scaffold(

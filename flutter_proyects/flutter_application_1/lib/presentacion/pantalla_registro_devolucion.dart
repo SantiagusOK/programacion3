@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/libro.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
+import 'package:flutter_application_1/presentacion/pantalla_inicio.dart';
 
 class RegistrarDevolucionPage extends StatefulWidget {
   const RegistrarDevolucionPage({super.key});
@@ -17,21 +18,41 @@ class _RegistrarDevolucionPageState extends State<RegistrarDevolucionPage> {
   List<Libro> librosNoDisponibles = [];
 
   void regitrarDevolucion() async {
-    DateTime fecha = DateTime.now();
-    List<Usuario> listaUsuariosFirebase =
-        await adaptadorFirebase.todosLosUsuarios();
-    List<Libro> listaLibrosFirebase = await adaptadorFirebase.todosLosLibros();
+    if (indexLibroSeleccionado >= 0 && indexUsuarioSeleccionado >= 0) {
+      DateTime fecha = DateTime.now();
+      List<Usuario> listaUsuariosFirebase =
+          await adaptadorFirebase.todosLosUsuarios();
+      List<Libro> listaLibrosFirebase =
+          await adaptadorFirebase.todosLosLibrosNoVueltos();
 
-    Usuario usuario = listaUsuariosFirebase[indexUsuarioSeleccionado];
-    Libro libro = listaLibrosFirebase[indexLibroSeleccionado];
+      Usuario usuario = listaUsuariosFirebase[indexUsuarioSeleccionado];
+      Libro libro = listaLibrosFirebase[indexLibroSeleccionado];
 
-    adminsBiblioteca.registrarDevolucionDeLibro(fecha, libro, usuario);
+      adminsBiblioteca.registrarDevolucionDeLibro(fecha, libro, usuario);
 
-    setState(() {
-      //librosNoDisponibles.removeAt(indexLibroSeleccionado);
-      indexLibroSeleccionado = -1;
-      indexUsuarioSeleccionado = -1;
-    });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: const Color.fromARGB(255, 97, 41, 37),
+        content: const Text("Delovucion de un libro registrado con exito!"),
+        action: SnackBarAction(
+          textColor: Colors.white,
+          label: "cerrar",
+          onPressed: () {},
+        ),
+      ));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const MainPage()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: const Text(
+            "Seleccione un usuario y libro para registrar la devolución"),
+        action: SnackBarAction(
+          textColor: Colors.white,
+          label: "cerrar",
+          onPressed: () {},
+        ),
+      ));
+    }
   }
 
   @override
@@ -127,7 +148,11 @@ class _RegistrarDevolucionPageState extends State<RegistrarDevolucionPage> {
                     const Divider(),
               );
             } else {
-              return Text("No hay usuarios");
+              return const Center(
+                  child: Text(
+                "No hay Usuarios",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ));
             }
           } else {
             return const CircularProgressIndicator(color: Colors.white);
@@ -154,7 +179,7 @@ class _RegistrarDevolucionPageState extends State<RegistrarDevolucionPage> {
             color: const Color.fromARGB(255, 112, 112, 112),
             borderRadius: BorderRadius.circular(5)),
         child: FutureBuilder(
-          future: adaptadorFirebase.todosLosLibros(),
+          future: adaptadorFirebase.todosLosLibrosNoVueltos(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isNotEmpty) {
@@ -186,7 +211,11 @@ class _RegistrarDevolucionPageState extends State<RegistrarDevolucionPage> {
                     separatorBuilder: (BuildContext context, int index) =>
                         const Divider());
               } else {
-                return const Text("No hay libros");
+                return const Center(
+                    child: Text(
+                  "No hay libros",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ));
               }
             } else {
               return const CircularProgressIndicator(color: Colors.white);

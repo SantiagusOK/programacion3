@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/Dominio/caso_de_uso/data/adaptadores.dart';
 import 'package:flutter_application_1/Dominio/entidades/usuario.dart';
 
@@ -13,14 +14,50 @@ class CrearUsuarioPage extends StatelessWidget {
     TextEditingController telefonoController = TextEditingController();
     TextEditingController emailController = TextEditingController();
 
+    bool casillasRellenadas() {
+      if (dniController.text == "" ||
+          nombreController.text == "" ||
+          apellidoController.text == "" ||
+          telefonoController.text == "" ||
+          emailController.text == "") {
+        return false;
+      }
+
+      return true;
+    }
+
     void guardarDatos() {
-      Usuario newUsuario = Usuario(
-          int.parse(dniController.text),
-          nombreController.text,
-          apellidoController.text,
-          int.parse(telefonoController.text),
-          emailController.text);
-      adaptadorFirebase.agregarUsuario(newUsuario);
+      if (casillasRellenadas()) {
+        Usuario newUsuario = Usuario(
+            int.parse(dniController.text),
+            nombreController.text,
+            apellidoController.text,
+            int.parse(telefonoController.text),
+            emailController.text);
+
+        adaptadorFirebase.agregarUsuario(newUsuario);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: const Color.fromARGB(255, 97, 41, 37),
+          content: const Text("Usuario registrado con exito"),
+          action: SnackBarAction(
+            textColor: Colors.white,
+            label: "cerrar",
+            onPressed: () {},
+          ),
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: const Color.fromARGB(255, 97, 41, 37),
+          content: const Text(
+              "Rellene todas las casillas para registrar un usuario"),
+          action: SnackBarAction(
+            textColor: Colors.white,
+            label: "cerrar",
+            onPressed: () {},
+          ),
+        ));
+      }
     }
 
     return Scaffold(
@@ -40,6 +77,7 @@ class CrearUsuarioPage extends StatelessWidget {
                 SizedBox(
                   width: 400,
                   child: TextField(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: dniController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
@@ -100,6 +138,7 @@ class CrearUsuarioPage extends StatelessWidget {
                 SizedBox(
                   width: 400,
                   child: TextField(
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     controller: telefonoController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
