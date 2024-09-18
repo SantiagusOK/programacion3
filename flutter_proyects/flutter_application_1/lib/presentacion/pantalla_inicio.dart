@@ -18,10 +18,8 @@ class MainPage extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text(
-          "MENU PRINCIPAL",
-          style: TextStyle(color: Colors.white),
-        ),
+        title:
+            const Text("MENU PRINCIPAL", style: TextStyle(color: Colors.white)),
         centerTitle: true,
       ),
       body: Center(
